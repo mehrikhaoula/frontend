@@ -1,5 +1,5 @@
 import React from "react";
-const UserTable=({users,onEdit,onDelete})=> {
+const UserTable=({users,onEdit,onDelete})=>  {
     return(
         <table className="min-w-full bg-white table-auto">
             <thead>
@@ -20,15 +20,10 @@ const UserTable=({users,onEdit,onDelete})=> {
                             <td className="px-6 py-4 text-sm text-gray-700">{user?.prenom}</td>
                             <td className="px-6 py-4 text-sm text-gray-700">{user?.email}</td>
                             <td className="px-6 py-4 text-sm">
-                                <button className="text-blue-600 hover:text-blue-950"
-                                onClick={()=>onEdit(user)}
-                                
-                                > modifier
-                                </button>
+                                <button className="text-blue-600 hover:text-blue-950 mr-10"
+                                onClick={()=>onEdit(user)}>modifier</button>
                                 <button className="text-red-700 hover:text-red-900"
-                                onClick={()=> onDelete (user)}>
-                                
-                                supprimer</button>
+                                onClick={()=>onDelete(user)}>supprimer</button>
                             </td>
 
                         </tr>

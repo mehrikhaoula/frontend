@@ -8,20 +8,25 @@ import { toast, ToastContainer } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import AjouterUser from './components/AjouterUser';
 import DeleteUser from './components/DeleteUser';
+import EditUser from './components/EditUser';
+import { preinitModule } from 'react-dom';
 
 function App() {
   
-  const[users, SetUsers]=useState([]);
+  const[users, SetUsers]=useState([])
   const [ajouterUser, SetAjouterUser] = useState(false)
   const [viewDelete, SetViewDelete]=useState(false)
   const [UserDeleted, SetUserDeleted]=useState(null)
+  const [selectedUser, SetSelectedUser]=useState(null)
+  const [isEditing, SetIsEditing]=useState(false)
+
 
   const getAllUsers= async ()=> {
     try {
       axios
-      .get(`${process?.env?.REACT_APP_API_URL}/users`)
+      .get(`${process.env.REACT_APP_API_URL}/users`)
       .then ((Response)=>{
-        console.log("listUsers",Response.data?.result);
+       
         SetUsers(Response.data?.result)
       })
       .catch((error)=> {
@@ -64,6 +69,42 @@ const onDeleteUser=async (userId)=>{
   }
 };
 
+const handleEditUser= (user)=>{
+  SetSelectedUser(user);
+  SetIsEditing(true);
+};
+const handleCancel=()=>{
+  SetIsEditing(false);
+};
+
+const handleUpdateUser=(updateUser)=> {
+  try {
+    axios.put(`${process.env.REACT_APP_API_URL}/user`,
+      {
+        id:updateUser?._id,
+        nom:updateUser?.nom,
+        prenom:updateUser?.prenom,
+        email:updateUser?.email,
+      },
+      {
+        headers:{
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((response)=>{
+      toast.success(response?.data?.msg);
+      getAllUsers();
+      SetIsEditing(false);
+    })
+    .catch((error)=>{
+      toast.error(error);
+    });
+  } catch (error) {
+    toast.error(error);
+  }
+}
+
   return (
     <div className="bg-gray-100 flex items-center justify-center py-10 min-h-screen"> 
     <div className=" w-full max-w-3xl bg-white shadow-lg rounded-lg overflow-hidden">
@@ -78,7 +119,7 @@ const onDeleteUser=async (userId)=>{
 <UserTable
 users={users}
 onDelete={handelDeleted}
-onEdit={()=>{}}
+onEdit={handleEditUser}
 />
       </div>
 
@@ -98,6 +139,15 @@ onEdit={()=>{}}
         onDelete={onDeleteUser}
         />
       )}
+    { isEditing && (
+        <div className=' fixed bg-gray-900 bg-opacity-50 flex items-center justify-center z-50'>
+          <EditUser
+          user={selectedUser}
+          onSave={handleUpdateUser}
+          onCancel={handleCancel}
+          />
+          </div>
+    )}
     </div>
   );
 }
