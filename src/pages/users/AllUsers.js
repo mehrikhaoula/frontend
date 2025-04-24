@@ -110,7 +110,9 @@ try {
   toast.error(error);
 }
 }
-function AllUsers () {
+<div>
+<ToastContainer /> {ToastContainer}
+</div>
   return (
     
     <div className="bg-gray-100 flex items-center justify-center py-10 min-h-screen"> 
@@ -153,6 +155,6 @@ function AllUsers () {
         )}
         </div>
   )
-}}
+}
 
 export default AllUsers

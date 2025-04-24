@@ -26,7 +26,7 @@ const isActive=(path)=>location.pathname===path
 
         </header>
         <aside className=' bg-white min-h-full w-full max-w-60 hidden md:block'>
-          <div className=' h-32 flex justify-center items-center felx-col'>
+          <div className=' h-32 flex justify-center items-center flex-col'>
             <div className='text-5xl cursor-pointer relative flex justify-center'>
             <FaRegCircleUser className=' text-2xl'/>
             </div>
